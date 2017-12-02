@@ -142,13 +142,16 @@ var Services = {
                 'tornado' : 'pe-is-w-tornado-1'
             };
 
-            self.initCities();
-            self.loadList( jsonPath, '#forecast-panel', iconArray );
+            self.loadLocations();
+            self.loadList( jsonPath, iconArray );
 
     },
-    initCities: function () {
+    loadLocations: function () {
         'use strict';
         var self = this;
+
+        var $contentPane = $("main");
+        var $selectorContainer = $contentPane.find( '#forecast-selector' );
 
         var locationIndex = 0;
         var locationArray = 
@@ -182,15 +185,22 @@ var Services = {
 
         var html = '<div class="city-list">';
 
+        for( var key in locationArray ) {
+            html += '<li class="" data-latitude="' + locationArray[ key ].coordinates[0] + '" data-longitude="' + locationArray[ key ].coordinates[1] + '">' + locationArray[ key ].name + '</li>';
+        }
+
         html += '</div>';
 
+        $selectorContainer.html(html);
+        
     },
-    loadList: function ( url, selector, iconArray) {
+    loadList: function ( url, iconArray) {
         'use strict';
         var self = this;
         
         var $contentPane = $("main");
-        var $list = $contentPane.find( selector );
+        var $listCurrent = $contentPane.find( '#forecast-panel-current span' );
+        var $listDaily = $contentPane.find( '#forecast-panel-daily span' );
                 
         $.ajax( url, {
             dataType: 'json'
@@ -201,8 +211,8 @@ var Services = {
                 console.log(data);
                 
                 var html = '<div class="forecast-current">';
-
-                        html += '<h2 class="location">' + data.timezone + '</h2>';
+                    
+                    html += '<h2 class="location">' + data.timezone + '</h2>';
 
                         if (data.currently.temperature) {
                             html += '<div class="current-temperature">' + data.currently.temperature + '&deg;</div>';
@@ -220,20 +230,19 @@ var Services = {
                             html += '<div class="current-wind"><i class="pe-is-w-wind-cone"></i> ' + data.currently.windSpeed + ' mph <i class="direction" data-direction="' + data.currently.windBearing + '" style="transform:rotate(-' + data.currently.windBearing + 'deg)">&rarr;</i></div>';
                         }
 
-                        
-
                     html += '</div>';
+
+                    $listCurrent.html(html);
 
                     
                 //forecast in terms of days
                 if (data.daily) {
 
-                    html += '<div class="daily-summary">';
+                    html = '';
 
                     if( data.daily.summary ) {
                         html += '<p>' + data.daily.summary + '</p>';
                     }
-
                     
                     /*
                     if (data.daily.icon) {
@@ -257,11 +266,12 @@ var Services = {
                         html += '</li>';
 
                     });
-                    html += '</ul>';     
-                    html += '</div>';               
+                    html += '</ul>';
+
+                    $listDaily.html(html);              
                 }
                 
-                $list.html(html);
+                
 
             }
         });

@@ -47,19 +47,35 @@
     </header>
 
 	<main>
+
 		<section>
 			
-			<img class="" src="assets/images/weather-en.png" alt="Weather logo" />
+			<!-- List if cities comes here-->
+			<ul id="forecast-selector" class="forecast-selector"></ul>
 			
-			<div class="location-bg"></div>
-			<div id="forecast-panel" class="forecast-panel">
-	
-				<div class="spinner">
-				  <div class="bounce1"></div>
-				  <div class="bounce2"></div>
-				  <div class="bounce3"></div>
+			<!-- Current forecast -->
+			<div id="forecast-panel-current" class="forecast-panel">
+				<div class="location-bg">
+					<img class="" src="assets/images/weather-en.png" alt="Weather logo" />
 				</div>
+				<span>
+					<div class="spinner">
+					  <div class="bounce1"></div>
+					  <div class="bounce2"></div>
+					  <div class="bounce3"></div>
+					</div>
+				</span>
+			</div>
 
+			<!-- Daily forecast of the following days -->
+			<div id="forecast-panel-daily" class="forecast-panel daily-summary">
+				<span>
+					<div class="spinner">
+					  <div class="bounce1"></div>
+					  <div class="bounce2"></div>
+					  <div class="bounce3"></div>
+					</div>
+				</span>
 			</div>
 
 		</section>

@@ -140,40 +140,55 @@ header { width: 100%; position: fixed; z-index: 10; background-color: $white; @i
 }
 
 
-
 main {  /*display: flex; flex-direction: row;*/
 	width: 100%; background-color: $grey-medium; padding-top: 64px;
 	
-	section { padding: 40px;
-		max-width: $max-width; margin: 0 auto;
+	section { 
+		padding: 0;
+		
+		margin: 0 auto;
 		min-height: 100px;
 		background-color: $blue;
 		position: relative;
+		text-align: center;
 		@include transition(all .5s ease);
 		
-		.location-bg {
-			background-image: url( $bg-images-path + 'sydney.jpg' );
-			position: absolute;
-			left: 0;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			background-size: cover;
-			z-index: 1;
-
-			@include transition(all .5s ease);
+		
+		ul.forecast-selector { list-style: none; margin: 0; padding: 20px;
+			li {
+				display: inline-block;
+				padding: 10px;
+				margin: 5px;
+				border: 1px solid $white;
+				border-radius: 10px;
+				background-color: $white;
+				cursor: pointer;
+			}
 		}
 
 		/**************1*************************************************
 		*	Services contain the important datas to show 
 		***************************************************************/		
 
-		.forecast-panel { text-align: center; position: relative; z-index: 5;
+		.forecast-panel { position: relative; z-index: 5; padding: 20px 0; margin-bottom: 20px;
 			&:AFTER { content:''; clear: both; display: block;}
+
+			.location-bg {
+				background-image: url( $bg-images-path + 'london.jpg' );
+				position: absolute;
+				left: 0;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				background-size: cover;
+				z-index: -1;
+
+				@include transition(all .5s ease);
+			}
 
 		}
 		
-		.forecast-current { background-color: $white; background: rgba(255, 255, 255, 0.9); text-align: center; width: 400px; margin: 0 auto 20px auto; padding: 20px; border-radius: 10px;
+		.forecast-current { background-color: $white; background: rgba(255, 255, 255, 0.9); text-align: center; width: auto; max-width: 400px; margin: 0 auto; padding: 20px; border-radius: 10px;
 			
 			@media screen and (max-width: $break-l) {
 			}
@@ -213,7 +228,7 @@ main {  /*display: flex; flex-direction: row;*/
 		
 		.daily-summary {
 			padding: 20px; background-color: $white; background: rgba(255, 255, 255, 0.9); border-radius: 10px; display: inline-block;
-			& > p {
+			p {
 				font-weight: bold; margin: 0;
 			}
 		}
