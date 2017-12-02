@@ -261,7 +261,7 @@ var Services = {
                     html += '</div>';               
                 }
                 
-                $list.append(html);
+                $list.html(html);
 
             }
         });

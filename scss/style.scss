@@ -7,6 +7,7 @@
 @import "variables";
 @import "mixins";
 @import "normalize";
+@import "components/loader";
 @import "print";
 
 /* --------------------------------------------------
@@ -147,16 +148,27 @@ main {  /*display: flex; flex-direction: row;*/
 		max-width: $max-width; margin: 0 auto;
 		min-height: 100px;
 		background-color: $blue;
-		//background-image: url( $bg-images-path + 'sydney.jpg' );
-		background-size: cover;
+		position: relative;
 		@include transition(all .5s ease);
+		
+		.location-bg {
+			background-image: url( $bg-images-path + 'sydney.jpg' );
+			position: absolute;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			background-size: cover;
+			z-index: 1;
 
+			@include transition(all .5s ease);
+		}
 
 		/**************1*************************************************
 		*	Services contain the important datas to show 
 		***************************************************************/		
 
-		.forecast-panel { text-align: center;
+		.forecast-panel { text-align: center; position: relative; z-index: 5;
 			&:AFTER { content:''; clear: both; display: block;}
 
 		}

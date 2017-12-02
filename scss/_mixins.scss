@@ -18,3 +18,19 @@
   -ms-transition: $params;
   transition: $params;
 }
+
+
+@mixin animation($params...) {
+  -webkit-animation: $params;
+  -moz-animation: $params;
+  -ms-animation: $params;
+  animation: $params;
+}
+
+@mixin animationdelay($params...) {
+  -webkit-animation-delay: $params;
+  -moz-animation-delay: $params;
+  -ms-animation-delay: $params;
+  animation-delay: $params;
+}
+
