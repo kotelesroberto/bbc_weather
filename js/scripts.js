@@ -116,35 +116,30 @@ var Footer = {
 };
 
 
+var iconArray = 
+{
+    'clear-day' : 'pe-is-w-sun-1',
+    'clear-night' : 'pe-is-w-moon-1',
+    'rain' : 'pe-is-w-rain-1',
+    'snow' : 'pe-is-w-snow',
+    'sleet' : 'pe-is-w-rain-and-snow',
+    'wind' : 'pe-is-w-wind-2',
+    'fog' : 'pe-is-w-fog-1',
+    'cloudy' : 'pe-is-w-mostly-cloudy-2',
+    'partly-cloudy-day' : 'pe-is-w-partly-cloudy-1',
+    'partly-cloudy-night' : 'pe-is-w-partly-cloudy-3',
+    'hail' : 'pe-is-w-hail-1',
+    'thunderstorm' : 'pe-is-w-thunderstorm',
+    'tornado' : 'pe-is-w-tornado-1'
+};
+
 /* Read JSON data source and put weather info into DOM */
 var Services = {
 
     initialize: function () {
         var self = this;
-        var jsonPath = "./assets/json/sample.json";
-        //var jsonPath = "https://api.darksky.net/forecast/6a949cbb55dfa9c681ae52ac95ef027d/37.8267,-122.4233";
-        //var jsonPath = "https://api.darksky.net/forecast/6a949cbb55dfa9c681ae52ac95ef027d/" + locationArray[locationIndex].coordinates[0] + "," + locationArray[locationIndex].coordinates[1] + "";
-       
-        var iconArray = 
-            {
-                'clear-day' : 'pe-is-w-sun-1',
-                'clear-night' : 'pe-is-w-moon-1',
-                'rain' : 'pe-is-w-rain-1',
-                'snow' : 'pe-is-w-snow',
-                'sleet' : 'pe-is-w-rain-and-snow',
-                'wind' : 'pe-is-w-wind-2',
-                'fog' : 'pe-is-w-fog-1',
-                'cloudy' : 'pe-is-w-mostly-cloudy-2',
-                'partly-cloudy-day' : 'pe-is-w-partly-cloudy-1',
-                'partly-cloudy-night' : 'pe-is-w-partly-cloudy-3',
-                'hail' : 'pe-is-w-hail-1',
-                'thunderstorm' : 'pe-is-w-thunderstorm',
-                'tornado' : 'pe-is-w-tornado-1'
-            };
-
-            self.loadLocations();
-            self.loadList( jsonPath, iconArray );
-
+        
+        self.loadLocations();    
     },
     loadLocations: function () {
         'use strict';
@@ -153,7 +148,6 @@ var Services = {
         var $contentPane = $("main");
         var $selectorContainer = $contentPane.find( '#forecast-selector' );
 
-        var locationIndex = 0;
         var locationArray = 
             [
                 {
@@ -186,23 +180,34 @@ var Services = {
         var html = '<div class="city-list">';
 
         for( var key in locationArray ) {
-            html += '<li class="" data-latitude="' + locationArray[ key ].coordinates[0] + '" data-longitude="' + locationArray[ key ].coordinates[1] + '">' + locationArray[ key ].name + '</li>';
+            html += '<li class="" data-bgimage="' + locationArray[ key ].bgimage + '" data-latitude="' + locationArray[ key ].coordinates[0] + '" data-longitude="' + locationArray[ key ].coordinates[1] + '">' + locationArray[ key ].name + '</li>';
         }
 
         html += '</div>';
 
         $selectorContainer.html(html);
+
+        //init click events
+        self.onClick( locationArray );
+
+        //first city will be loaded
+        self.loadList( locationArray[0].coordinates[0], locationArray[0].coordinates[1] );
         
     },
-    loadList: function ( url, iconArray) {
+    loadList: function ( latitude, longitude ) {
         'use strict';
         var self = this;
+
+        //var jsonPath = "./assets/json/sample.json";
+        //var jsonPath = "https://api.darksky.net/forecast/6a949cbb55dfa9c681ae52ac95ef027d/37.8267,-122.4233";
+        var jsonPath = "https://api.darksky.net/forecast/6a949cbb55dfa9c681ae52ac95ef027d/" + latitude + "," + longitude + "";
+        
         
         var $contentPane = $("main");
         var $listCurrent = $contentPane.find( '#forecast-panel-current span' );
         var $listDaily = $contentPane.find( '#forecast-panel-daily span' );
                 
-        $.ajax( url, {
+        $.ajax( jsonPath, {
             dataType: 'json'
         }).done(function ( data ) {
 
@@ -275,6 +280,18 @@ var Services = {
 
             }
         });
+    },
+    onClick: function ( locationArray ) { /*click events*/
+        'use strict';
+        var self = this;
+        
+        $('.city-list').find('li').on('click', function() {
+            var $this = $(this);
+            
+            self.loadList( $this.data('latitude'), $this.data('longitude') );
+            $(".location-bg").css("background-image", "url(assets/images/cities/" + $this.data('bgimage') +")" )
+        });
+        
     }
 
 };
