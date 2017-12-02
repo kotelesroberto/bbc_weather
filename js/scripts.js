@@ -116,14 +116,129 @@ var Footer = {
 };
 
 
+/* Read JSON data source and put weather info into DOM */
 var Services = {
 
     initialize: function () {
         var self = this;
+        var jsonPath = "./assets/json/sample.json";
+        //var jsonPath = "https://api.darksky.net/forecast/6a949cbb55dfa9c681ae52ac95ef027d/37.8267,-122.4233";
+        //var jsonPath = "https://api.darksky.net/forecast/6a949cbb55dfa9c681ae52ac95ef027d/" + locationArray[locationIndex].coordinates[0] + "," + locationArray[locationIndex].coordinates[1] + "";
+        
+        var locationIndex = 0;
+        var locationArray = 
+            [
+                {
+                    'name' : 'London',
+                    'coordinates' : ['51.507194', '-0.137311']
+                },
+                {
+                    'name' : 'Paris',
+                    'coordinates' : ['48.856878', '2.348987']
+                },
+                {
+                    'name' : 'New York',
+                    'coordinates' : ['40.686658', '-73.970547']
+                },
+                {
+                    'name' : 'Singapore',
+                    'coordinates' : ['1.346260', '103.847672']
+                },
+                {
+                    'name' : 'Sydney',
+                    'coordinates' : ['-33.830817', '151.212088']
+                }
+            ];
+
+        var iconArray = 
+            {
+                'clear-day' : 'pe-is-w-sun-1',
+                'clear-night' : 'pe-is-w-moon-1',
+                'rain' : 'pe-is-w-rain-1',
+                'snow' : 'pe-is-w-snow',
+                'sleet' : 'pe-is-w-rain-and-snow',
+                'wind' : 'pe-is-w-wind-2',
+                'fog' : 'pe-is-w-fog-1',
+                'cloudy' : 'pe-is-w-mostly-cloudy-2',
+                'partly-cloudy-day' : 'pe-is-w-partly-cloudy-1',
+                'partly-cloudy-night' : 'pe-is-w-partly-cloudy-3',
+                'hail' : 'pe-is-w-hail-1',
+                'thunderstorm' : 'pe-is-w-thunderstorm',
+                'tornado' : 'pe-is-w-tornado-1'
+            };
+
+            self.loadList( jsonPath, '#forecast-panel', iconArray );
+
+    },
+    loadList: function ( url, selector, iconArray) {
+        
+        var self = this;
+        
+        var $contentPane = $("main");
+        var $list = $contentPane.find( selector );
+                
+        $.ajax( url, {
+            dataType: 'json'
+        }).done(function (data, textStatus, jqXHR) {
+
+            if (data) {
+                
+                console.log(data);
+                
+                var html = '<div class="forecast-current">';
+
+                        html += '<h2 class="location">' + data.timezone + '</h2>';
+
+                        if (data.currently.temperature) {
+                            html += '<div class="current-temperature">' + data.currently.temperature + '</div>';
+                        }
+
+                        if (data.currently.icon) {
+                            html += '<div class="current-icon"><i class="' + iconArray[data.currently.icon] + '"></i></div>';
+                        }
+
+                        if (data.currently.summary) {
+                            html += '<div class="current-summary">' + data.currently.summary + '</div>';
+                        }
+
+                    html += '</div>';
+
+                    
+                //forecast in terms of days
+                if (data.daily) {
+
+                    if (data.daily.summary) {
+                        html += '<div class="daily-summary">' + data.daily.summary + '</div>';
+                    }
+                    
+                    if (data.daily.icon) {
+                        html += '<div class="daily-icon"><i class="' + iconArray[data.daily.icon] + '"></i></div>';
+                    }
+
+                    html += '<ul class="forecast-daily">';
+                    $.each(data.daily.data, function (key, obj) {
+                        console.log(obj);
+                        
+                        var timeToDisplay = new Date( obj.time );
+
+                        html += '<li>';
+                            html += '<div class="daily-date">' + timeToDisplay +  '</div>';
+                            html += '<div class="daily-icon"><i class="' + iconArray[obj.icon] + '"></i></div>';
+                            html += '<div class="daily-maxTemperature">' + obj.temperatureHigh +  '</div>';
+                            html += '<div class="daily-minTemperature">' + obj.temperatureLow +  '</div>';
+                        html += '</li>';
+
+                    });
+                    html += '</ul>';                    
+                }
+                
+                $list.append(html);
+
+            }
+        });
     }
 
 };
-
 
 $(function () {
 
