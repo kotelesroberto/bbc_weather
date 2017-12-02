@@ -143,10 +143,12 @@ header { width: 100%; position: fixed; z-index: 10; background-color: $white; @i
 main {  /*display: flex; flex-direction: row;*/
 	width: 100%; background-color: $grey-medium; padding-top: 64px;
 	
-	section {
+	section { padding: 40px;
 		max-width: $max-width; margin: 0 auto;
 		min-height: 100px;
 		background-color: $blue;
+		//background-image: url( $bg-images-path + 'sydney.jpg' );
+		background-size: cover;
 		@include transition(all .5s ease);
 
 
@@ -154,12 +156,12 @@ main {  /*display: flex; flex-direction: row;*/
 		*	Services contain the important datas to show 
 		***************************************************************/		
 
-		.services {
+		.forecast-panel { text-align: center;
 			&:AFTER { content:''; clear: both; display: block;}
 
 		}
 		
-		.service { 
+		.forecast-current { background-color: $white; background: rgba(255, 255, 255, 0.9); text-align: center; width: 400px; margin: 0 auto 20px auto; padding: 20px; border-radius: 10px;
 			
 			@media screen and (max-width: $break-l) {
 			}
@@ -167,14 +169,65 @@ main {  /*display: flex; flex-direction: row;*/
 			}
 			
 			
-			h2 {
+			h2.location {
 				font-size: $font-size-h2;
 				font-weight: bold;
+				color: $black;
 			}
+			
+			.current-temperature {
+				font-size: 100px;
+				color: $black;
+			}
+
+			.current-summary {
+			}
+
+			.current-icon {
+				font-size: $font-size-icon-main;
+			}
+
+			.current-wind {
+				i {
+					display: inline-block;
+				}
+			}
+
 			p {
 				font-size: $font-size;				
 			}
 			
+		}
+		
+		.daily-summary {
+			padding: 20px; background-color: $white; background: rgba(255, 255, 255, 0.9); border-radius: 10px; display: inline-block;
+			& > p {
+				font-weight: bold; margin: 0;
+			}
+		}
+
+		.forecast-daily {  list-style: none; display: inline-block; padding: 0; margin: 0;
+			li {
+				display: inline-block; padding: 20px; text-align: center;
+			}
+
+			.daily-date {
+				color: $grey;
+			}
+
+			.daily-icon {
+				font-size: $font-size-icon-daily;
+			}
+
+			.daily-maxTemperature {
+				font-size: $font-size-maxTemperature;
+				color: $grey;
+			}
+
+			.daily-minTemperature {
+				font-size: $font-size-minTemperature;
+				color: $blue-light;
+			}
 		}
 	}
 }
