@@ -12,3 +12,183 @@
 /* --------------------------------------------------
  * Base
  * -------------------------------------------------- */
+
+ * { box-sizing:border-box; -ms-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; }
+
+html {
+	font-family: $font-family;
+}
+
+body {
+	font-size: $font-size; line-height: 1.3;
+	font-family: $font-family;
+	color: $primary-color;
+}
+
+h1, h2, h3, h4, h5, h6 { font-weight: normal; line-height: 1.2; margin-top: 0; margin-bottom: 10px; color: $blue-light; }
+h2 { font-size: $font-size-h2; font-weight: bold; }
+h3 { font-size: $font-size-h3; font-weight: bold; }
+h4 { font-size: $font-size-h4; font-weight: bold; }
+
+p { font-size:$font-size; margin:0 0 20px 0; }
+
+a { color:$link-color; text-decoration:none; }
+a:hover { color: $link-color-hover; text-decoration:underline; }
+
+img { display:block; max-width:100%; margin: 0; }
+
+ol, ul { font-size:$font-size; margin:0 0 20px 0; padding-left:20px; }
+li {}
+
+.hidden { display: none; }
+.visible { display: block; }
+
+
+/* --------------------------------------------------
+ * Site definitions
+ * -------------------------------------------------- */
+
+/*********************
+*	Main sections 
+*********************/
+
+
+.scrolling-up header {}
+.scrolling-down header { @include transform(translateY(-100%)); }
+
+header { width: 100%; position: fixed; z-index: 10; background-color: $white; @include transition(all .5s ease); @include box-shadow(0px 2px 4px 0px rgba(0, 0, 0, 0.4), 0px 0px 6px 2px rgba(255,255,255,0.5));
+	
+	img.header-logo { width: 84px; height: 24px; position: relative; margin: 20px 24px; top: 0; cursor: pointer; @include transition(all .5s ease); 
+		
+			@media screen and (max-width: $break-s) {
+				margin: 11px 24px;
+			}
+
+		&:HOVER { opacity: .5; }
+	}
+	
+			@media screen and (max-width: $break-s) {
+				&.mobilemenu-open {
+					nav { @include transform(translateY(0)); opacity: 1;  }
+				}
+			}
+	
+
+	nav { 
+		position: absolute; right: 0; top: 50%; @include transform(translateY(-50%));
+		
+			@media screen and (max-width: $break-s) {
+				position: fixed; left: 0; top: 0; right: 0; bottom: 0; background-color: $white; @include transition(all .5s ease); @include transform(translateY(-100%)); opacity: 0;
+			}
+
+		ul { list-style: none; font-size: 0; text-align: right; padding: 10px; margin: 0; margin-right: 24px;
+			
+				@media screen and (max-width: $break-s) {
+					position: absolute;
+					left: 0;
+					top: 50%;
+					left: 50%;
+					@include transform(translate3d(-50%,-50%,0));
+				}
+
+			li { display: inline-block; font-size: $font-size-main-nav; cursor: pointer; 
+					
+					@media screen and (max-width: $break-l) {
+						font-size: $font-size-main-nav-l;
+					}
+
+					@media screen and (max-width: $break-s) {
+						display: block; margin: 20px 0 !important; text-align: center;
+					}
+
+				&+li { margin-left: 30px; }
+				a { position: relative; 
+					&:HOVER { text-decoration: none; }
+					&:AFTER { content:''; display: block; width: 100%; height: 3px; background-color: $grey; position:absolute; left: 0; bottom: -6px; opacity: 0; @include transition(all .5s ease); @include transform(translateX(-10px) rotate(3deg)); }
+					&:HOVER:AFTER { @include transform(translateX(0)  rotate(0deg)); opacity: 1; }
+				}
+			}
+		}
+	}
+}
+
+
+
+/*Mobile menu button*/
+.mobilemenu-trigger { background:$black; border:none; display:none; height:46px; width:46px; overflow:hidden; outline:none; position:absolute; right:0; top:0; text-indent:-9999px; z-index:1001; -webkit-transition:all 0.3s; -moz-transition:all 0.3s; transition:all 0.3s; 
+
+		@media screen and (max-width: $break-s) {
+			display: block;
+		}
+
+	span { background:$grey; display:block; height:1px; position:absolute; top:22px; left:9px; right:9px; -webkit-transition:all 0.3s; -moz-transition:all 0.3s; transition:all 0.3s; 
+		&::before, 
+		&::after { background:$grey; display:block; height:1px; width:100%; content:''; position:absolute; left:0; -webkit-transition-duration:0.3s, 0.3s; -moz-transition-duration:0.3s, 0.3s; transition-duration:0.3s, 0.3s; -webkit-transition-delay:0.3s, 0s; -moz-transition-delay:0.3s, 0s; transition-delay:0.3s, 0s; }
+		&::before { top:-6px; -webkit-transition-property:top, -webkit-transform; -moz-transition-property:top, -moz-transform; transition-property:top, transform; }
+		&::after { bottom:-6px; -webkit-transition-property:bottom, -webkit-transform; -moz-transition-property:bottom, -moz-transform; transition-property:bottom, transform; }
+	}
+}
+
+.mobilemenu-open .mobilemenu-trigger {
+	span { background:none; 
+		&::before { top:0; -webkit-transform:rotate(45deg); -moz-transform:rotate(45deg); transform:rotate(45deg); }
+		&::after { bottom:0; -webkit-transform:rotate(-45deg); -moz-transform:rotate(-45deg); transform:rotate(-45deg); }
+		&::before, 
+		&::after { -webkit-transition-delay:0s, 0.3s; -moz-transition-delay:0s, 0.3s; transition-delay:0s, 0.3s; }
+	}		
+}
+
+
+
+main {  /*display: flex; flex-direction: row;*/
+	width: 100%; background-color: $grey-medium; padding-top: 64px;
+	
+	section {
+		max-width: $max-width; margin: 0 auto;
+		min-height: 100px;
+		background-color: $blue;
+		@include transition(all .5s ease);
+
+
+		/**************1*************************************************
+		*	Services contain the important datas to show 
+		***************************************************************/		
+
+		.services {
+			&:AFTER { content:''; clear: both; display: block;}
+
+		}
+		
+		.service { 
+			
+			@media screen and (max-width: $break-l) {
+			}
+			@media screen and (max-width: $break-s) {
+			}
+			
+			
+			h2 {
+				font-size: $font-size-h2;
+				font-weight: bold;
+			}
+			p {
+				font-size: $font-size;				
+			}
+			
+		}
+	}
+}
+
+/*********************
+*	Footer 
+*********************/
+footer {
+	width: 100%;
+	background-color: $black;
+	z-index: 10;
+	position: relative;
+	padding: 20px 24px;
+	color: $white;
+
+	p.copyright {  margin: 0; text-align: right; }
+}
