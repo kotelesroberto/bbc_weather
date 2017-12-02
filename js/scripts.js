@@ -124,7 +124,32 @@ var Services = {
         var jsonPath = "./assets/json/sample.json";
         //var jsonPath = "https://api.darksky.net/forecast/6a949cbb55dfa9c681ae52ac95ef027d/37.8267,-122.4233";
         //var jsonPath = "https://api.darksky.net/forecast/6a949cbb55dfa9c681ae52ac95ef027d/" + locationArray[locationIndex].coordinates[0] + "," + locationArray[locationIndex].coordinates[1] + "";
-        
+       
+        var iconArray = 
+            {
+                'clear-day' : 'pe-is-w-sun-1',
+                'clear-night' : 'pe-is-w-moon-1',
+                'rain' : 'pe-is-w-rain-1',
+                'snow' : 'pe-is-w-snow',
+                'sleet' : 'pe-is-w-rain-and-snow',
+                'wind' : 'pe-is-w-wind-2',
+                'fog' : 'pe-is-w-fog-1',
+                'cloudy' : 'pe-is-w-mostly-cloudy-2',
+                'partly-cloudy-day' : 'pe-is-w-partly-cloudy-1',
+                'partly-cloudy-night' : 'pe-is-w-partly-cloudy-3',
+                'hail' : 'pe-is-w-hail-1',
+                'thunderstorm' : 'pe-is-w-thunderstorm',
+                'tornado' : 'pe-is-w-tornado-1'
+            };
+
+            self.initCities();
+            self.loadList( jsonPath, '#forecast-panel', iconArray );
+
+    },
+    initCities: function () {
+        'use strict';
+        var self = this;
+
         var locationIndex = 0;
         var locationArray = 
             [
@@ -150,28 +175,13 @@ var Services = {
                 }
             ];
 
-        var iconArray = 
-            {
-                'clear-day' : 'pe-is-w-sun-1',
-                'clear-night' : 'pe-is-w-moon-1',
-                'rain' : 'pe-is-w-rain-1',
-                'snow' : 'pe-is-w-snow',
-                'sleet' : 'pe-is-w-rain-and-snow',
-                'wind' : 'pe-is-w-wind-2',
-                'fog' : 'pe-is-w-fog-1',
-                'cloudy' : 'pe-is-w-mostly-cloudy-2',
-                'partly-cloudy-day' : 'pe-is-w-partly-cloudy-1',
-                'partly-cloudy-night' : 'pe-is-w-partly-cloudy-3',
-                'hail' : 'pe-is-w-hail-1',
-                'thunderstorm' : 'pe-is-w-thunderstorm',
-                'tornado' : 'pe-is-w-tornado-1'
-            };
-
-            self.loadList( jsonPath, '#forecast-panel', iconArray );
+        var html = '<div class="city-list">';
+       
+        html += '</div>';
 
     },
     loadList: function ( url, selector, iconArray) {
-        
+        'use strict';
         var self = this;
         
         var $contentPane = $("main");
@@ -179,7 +189,7 @@ var Services = {
                 
         $.ajax( url, {
             dataType: 'json'
-        }).done(function (data, textStatus, jqXHR) {
+        }).done(function ( data ) {
 
             if (data) {
                 
@@ -210,19 +220,22 @@ var Services = {
                     if (data.daily.summary) {
                         html += '<div class="daily-summary">' + data.daily.summary + '</div>';
                     }
-                    
+                    /*
                     if (data.daily.icon) {
                         html += '<div class="daily-icon"><i class="' + iconArray[data.daily.icon] + '"></i></div>';
                     }
+                    */
 
                     html += '<ul class="forecast-daily">';
                     $.each(data.daily.data, function (key, obj) {
                         console.log(obj);
                         
-                        var timeToDisplay = new Date( obj.time );
+                        // Create a new JavaScript Date object based on the timestamp
+                        // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+                        var dayToDisplay = new Date(obj.time*1000).toString().split(' ')[0];
 
                         html += '<li>';
-                            html += '<div class="daily-date">' + timeToDisplay +  '</div>';
+                            html += '<div class="daily-date">' + dayToDisplay +  '</div>';
                             html += '<div class="daily-icon"><i class="' + iconArray[obj.icon] + '"></i></div>';
                             html += '<div class="daily-maxTemperature">' + obj.temperatureHigh +  '</div>';
                             html += '<div class="daily-minTemperature">' + obj.temperatureLow +  '</div>';
