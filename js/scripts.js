@@ -155,28 +155,33 @@ var Services = {
             [
                 {
                     'name' : 'London',
-                    'coordinates' : ['51.507194', '-0.137311']
+                    'coordinates' : ['51.507194', '-0.137311'],
+                    'bgimage' : 'london.jpg'
                 },
                 {
                     'name' : 'Paris',
-                    'coordinates' : ['48.856878', '2.348987']
+                    'coordinates' : ['48.856878', '2.348987'],
+                    'bgimage' : 'paris.jpg'
                 },
                 {
                     'name' : 'New York',
-                    'coordinates' : ['40.686658', '-73.970547']
+                    'coordinates' : ['40.686658', '-73.970547'],
+                    'bgimage' : 'newyork.jpg'
                 },
                 {
                     'name' : 'Singapore',
-                    'coordinates' : ['1.346260', '103.847672']
+                    'coordinates' : ['1.346260', '103.847672'],
+                    'bgimage' : 'singapore.jpg'
                 },
                 {
                     'name' : 'Sydney',
-                    'coordinates' : ['-33.830817', '151.212088']
+                    'coordinates' : ['-33.830817', '151.212088'],
+                    'bgimage' : 'sydney.jpg'
                 }
             ];
 
         var html = '<div class="city-list">';
-       
+
         html += '</div>';
 
     },
@@ -200,7 +205,7 @@ var Services = {
                         html += '<h2 class="location">' + data.timezone + '</h2>';
 
                         if (data.currently.temperature) {
-                            html += '<div class="current-temperature">' + data.currently.temperature + '</div>';
+                            html += '<div class="current-temperature">' + data.currently.temperature + '&deg;</div>';
                         }
 
                         if (data.currently.icon) {
@@ -211,15 +216,25 @@ var Services = {
                             html += '<div class="current-summary">' + data.currently.summary + '</div>';
                         }
 
+                        if (data.currently.windSpeed) {
+                            html += '<div class="current-wind"><i class="pe-is-w-wind-cone"></i> ' + data.currently.windSpeed + ' mph <i class="direction" data-direction="' + data.currently.windBearing + '" style="transform:rotate(-' + data.currently.windBearing + 'deg)">&rarr;</i></div>';
+                        }
+
+                        
+
                     html += '</div>';
 
                     
                 //forecast in terms of days
                 if (data.daily) {
 
-                    if (data.daily.summary) {
-                        html += '<div class="daily-summary">' + data.daily.summary + '</div>';
+                    html += '<div class="daily-summary">';
+
+                    if( data.daily.summary ) {
+                        html += '<p>' + data.daily.summary + '</p>';
                     }
+
+                    
                     /*
                     if (data.daily.icon) {
                         html += '<div class="daily-icon"><i class="' + iconArray[data.daily.icon] + '"></i></div>';
@@ -237,12 +252,13 @@ var Services = {
                         html += '<li>';
                             html += '<div class="daily-date">' + dayToDisplay +  '</div>';
                             html += '<div class="daily-icon"><i class="' + iconArray[obj.icon] + '"></i></div>';
-                            html += '<div class="daily-maxTemperature">' + obj.temperatureHigh +  '</div>';
-                            html += '<div class="daily-minTemperature">' + obj.temperatureLow +  '</div>';
+                            html += '<div class="daily-maxTemperature">' + obj.temperatureHigh +  '&deg;</div>';
+                            html += '<div class="daily-minTemperature">' + obj.temperatureLow +  '&deg;</div>';
                         html += '</li>';
 
                     });
-                    html += '</ul>';                    
+                    html += '</ul>';     
+                    html += '</div>';               
                 }
                 
                 $list.append(html);
