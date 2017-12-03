@@ -250,6 +250,10 @@ main {
 		.forecast-panel { position: relative; z-index: 5; padding: 60px 0 20px 0; margin-bottom: 20px;
 			&:AFTER { content:''; clear: both; display: block;}
 
+				@media screen and (max-width: $break-s) {
+					padding-top: 40px;
+				}
+
 			.location-bg {
 				position: absolute;
 				left: -24px;
@@ -272,6 +276,10 @@ main {
 				position: absolute;
 				left: 0;
 				top: 0;
+
+				@media screen and (max-width: $break-s) {
+					width: 150px;
+				}
 			}
 		}
 		
@@ -363,6 +371,15 @@ footer {
 	position: relative;
 	padding: 20px 24px;
 	color: $white;
-
-	p.copyright {  margin: 0; text-align: right; }
+	
+	.footer-logo {  		
+		@media screen and (max-width: $break-s) {
+			margin-bottom: 20px;
+		}
+	}
+	p.copyright {  margin: 0; text-align: right;
+		@media screen and (max-width: $break-s) {
+			text-align: left;
+		}
+	}
 }
