@@ -39,6 +39,10 @@ var GeneralFunctions = {
         'use strict';
         var calculated = mph * 1.609344;
         return parseFloat( calculated.toFixed(2) );
+    },
+    timezoneToLocationName: function ( timezone ) {
+        var locationName = timezone.split("/");
+        return locationName[1].replace("_", " ");
     }
     
 };
@@ -252,7 +256,7 @@ var Services = {
                 // Building the current forecast panel
                 var html = '<div class="forecast-current">';
                     
-                    html += '<h2 class="location">' + data.timezone + '</h2>';
+                    html += '<h2 class="location">' + GeneralFunctions.timezoneToLocationName( data.timezone ) + '</h2>';
 
                         if (data.currently.temperature) {
                             html += '<div class="current-temperature temperature-value"><span class="temp-value" data-fahrenheit="' + data.currently.temperature + '">' + data.currently.temperature + '</span>&deg;<span class="temp-unit">F</span></div>';
@@ -273,13 +277,11 @@ var Services = {
                     html += '</div>';
 
                     //load name of the city into city selector
-                    $(".city-selected").find(".display-text").html( data.timezone );
+                    $(".city-selected").find(".display-text").html( GeneralFunctions.timezoneToLocationName( data.timezone ) );
 
                     //load results into DOM wrapper
                     $listCurrent.html(html);
                     
-                    
-
                     
                 // Building the daily forecast items
                 if (data.daily) {
@@ -298,8 +300,7 @@ var Services = {
 
                     html += '<ul class="forecast-daily">';
                     $.each(data.daily.data, function (key, obj) {
-                        //console.log(obj);
-                        
+                       
                         // Create a new JavaScript Date object based on the timestamp
                         // multiplied by 1000 so that the argument is in milliseconds, not seconds.
                         var dayToDisplay = new Date(obj.time*1000).toString().split(' ')[0];
