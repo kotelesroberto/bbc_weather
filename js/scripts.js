@@ -327,8 +327,8 @@ var Services = {
     },
     convertUnits: function ( currentTempUnit, buttonAction ) {
             var $changeButton = $('.change-temp-unit');
-            var $tempUnitToShow = $(".temp-unit");
-            var $windspeedUnitToShow = $(".wind-unit");
+            var $tempUnitToShow = $(".temperature-value .temp-unit");
+            var $windspeedUnitToShow = $(".forecast-current .wind-unit");
 
             var $tempUnitToChangeFrom = $changeButton.find(".temp-unit");
             var $windspeedUnitToChangeFrom = $changeButton.find(".wind-unit");
@@ -353,6 +353,9 @@ var Services = {
                 }
 
                 $changeButton.attr("data-currenttempunit", newTempUnit);
+                $tempUnitToChangeFrom.html( currentTempUnit );
+                $windspeedUnitToChangeFrom.html( currentSpeedUnit ); 
+
             } else { //event fired ajax loader
                 if( currentTempUnit == "C" ) {
                     currentSpeedUnit = "mph";
@@ -369,9 +372,8 @@ var Services = {
             }
             
             $tempUnitToShow.html( newTempUnit );
-            $tempUnitToChangeFrom.html( currentTempUnit );
             $windspeedUnitToShow.html( newSpeedUnit );
-            $windspeedUnitToChangeFrom.html( currentSpeedUnit );            
+                       
                 
             $(".temperature-value").each( function () {
                 var $this = $(this);
