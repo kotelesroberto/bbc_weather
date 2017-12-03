@@ -214,6 +214,9 @@ var Services = {
 
         $selectorContainer.html(html).find("li:FIRST-CHILD").addClass("selected");
 
+        //Append unit changer button
+        $("#forecast-panel-daily").after('<div class="button-wrapper"><div class="change-temp-unit button" data-currenttempunit="F">Change units to &deg;<span class="temp-unit strong">C</span> and <span class="wind-unit strong">km&sol;h</span></div></div>');
+        
         //init click events
         self.onClick( locationArray );
 
@@ -251,8 +254,6 @@ var Services = {
 
             if (data) {
                 
-                console.log(data);
-                
                 // Building the current forecast panel
                 var html = '<div class="forecast-current">';
                     
@@ -267,11 +268,11 @@ var Services = {
                         }
 
                         if (data.currently.summary) {
-                            html += '<div class="current-summary">' + data.currently.summary + '</div>';
+                            html += '<p class="current-summary">' + data.currently.summary + '</p>';
                         }
 
                         if (data.currently.windSpeed) {
-                            html += '<div class="current-wind speed-value"><i class="pe-is-w-wind-cone"></i> <span class="wind-value" data-windspeed="' + data.currently.windSpeed + '">' + data.currently.windSpeed + '</span> <span class="wind-unit">mph</span> <i class="direction" data-direction="' + data.currently.windBearing + '" style="transform:rotate(-' + data.currently.windBearing + 'deg)">&rarr;</i></div>';
+                            html += '<p class="current-wind speed-value"><i class="pe-is-w-wind-cone"></i> <span class="wind-value" data-windspeed="' + data.currently.windSpeed + '">' + data.currently.windSpeed + '</span> <span class="wind-unit">mph</span> <i class="direction" data-direction="' + data.currently.windBearing + '" style="transform:rotate(-' + data.currently.windBearing + 'deg)">&rarr;</i></p>';
                         }
 
                     html += '</div>';
@@ -317,11 +318,83 @@ var Services = {
 
                     $listDaily.html(html);              
                 }
-                
-                
 
+                //convert to the selected unit
+                self.convertUnits( $('.change-temp-unit').attr('data-currenttempunit'), false );
             }
+
         });
+    },
+    convertUnits: function ( currentTempUnit, buttonAction ) {
+            var $changeButton = $('.change-temp-unit');
+            var $tempUnitToShow = $(".temp-unit");
+            var $windspeedUnitToShow = $(".wind-unit");
+
+            var $tempUnitToChangeFrom = $changeButton.find(".temp-unit");
+            var $windspeedUnitToChangeFrom = $changeButton.find(".wind-unit");
+            
+            var convertFromFahrenheitToCelsius; 
+
+            var newTempUnit = "";
+            var currentSpeedUnit = "";
+            var newSpeedUnit = "";
+
+            if( buttonAction ) { //event fired by button
+                if( currentTempUnit == "C" ) {
+                    currentSpeedUnit = "km&sol;h";
+                    newTempUnit = "F";                    
+                    newSpeedUnit = "mph";
+                    convertFromFahrenheitToCelsius = false;
+                } else {
+                    currentSpeedUnit = "mph";
+                    newTempUnit = "C";                    
+                    newSpeedUnit = "km&sol;h";
+                    convertFromFahrenheitToCelsius = true; 
+                }
+
+                $changeButton.attr("data-currenttempunit", newTempUnit);
+            } else { //event fired ajax loader
+                if( currentTempUnit == "C" ) {
+                    currentSpeedUnit = "mph";
+                    newTempUnit = "C";                    
+                    newSpeedUnit = "km&sol;h";
+                    convertFromFahrenheitToCelsius = true;
+                } else {
+                    currentSpeedUnit = "km&sol;h";
+                    newTempUnit = "F";                    
+                    newSpeedUnit = "mph";
+                    convertFromFahrenheitToCelsius = false;
+                    convertFromFahrenheitToCelsius = false; 
+                }
+            }
+            
+            $tempUnitToShow.html( newTempUnit );
+            $tempUnitToChangeFrom.html( currentTempUnit );
+            $windspeedUnitToShow.html( newSpeedUnit );
+            $windspeedUnitToChangeFrom.html( currentSpeedUnit );            
+                
+            $(".temperature-value").each( function () {
+                var $this = $(this);
+                var $valueToChange = $this.find(".temp-value");
+                
+                if( convertFromFahrenheitToCelsius ) {
+                    $valueToChange.html( GeneralFunctions.convertFtoC( $valueToChange.data("fahrenheit") ) );
+                } else {
+                    $valueToChange.html( $valueToChange.data("fahrenheit") );
+                }                
+            });    
+
+            $(".speed-value").each( function () {
+                $this = $(this);
+                var $valueToChange = $this.find(".wind-value");
+                
+                if( convertFromFahrenheitToCelsius ) {
+                    $valueToChange.html( GeneralFunctions.convertMPHtoKMPH( $valueToChange.data("windspeed") ) );
+                } else {
+                    $valueToChange.html( $valueToChange.data("windspeed") );
+                }                
+            });
+            
     },
     onClick: function ( locationArray ) { /*click events*/
         'use strict';
@@ -349,51 +422,9 @@ var Services = {
 
         $('.change-temp-unit').on('click', function() {
             var $this = $(this);
-            var $tempUnitToShow = $(".temp-unit");
             var $tempUnitToChangeFrom = $this.find(".temp-unit");
-            var $windspeedUnitToShow = $(".wind-unit");
-            var $windspeedUnitToChangeFrom = $this.find(".wind-unit");
-            
-            var convertFromFahrenheitToCelsius; 
 
-            if( $tempUnitToChangeFrom.html() == "C" ) {
-                $tempUnitToShow.html("C");
-                $tempUnitToChangeFrom.html("F");
-                $windspeedUnitToShow.html("km&sol;h");
-                $windspeedUnitToChangeFrom.html("mph");
-
-                convertFromFahrenheitToCelsius = true;
-            } else {
-                $tempUnitToShow.html("F");
-                $tempUnitToChangeFrom.html("C");
-                $windspeedUnitToShow.html("mph");
-                $windspeedUnitToChangeFrom.html("km&sol;h");
-
-                convertFromFahrenheitToCelsius = false; 
-            }
-
-            $(".temperature-value").each( function () {
-                $this = $(this);
-                var $valueToChange = $this.find(".temp-value");
-                
-                if( convertFromFahrenheitToCelsius ) {
-                    $valueToChange.html( GeneralFunctions.convertFtoC( $valueToChange.data("fahrenheit") ) );
-                } else {
-                    $valueToChange.html( $this.data("fahrenheit") );
-                }                
-            });    
-
-            $(".speed-value").each( function () {
-                $this = $(this);
-                var $valueToChange = $this.find(".wind-value");
-                
-                if( convertFromFahrenheitToCelsius ) {
-                    $valueToChange.html( GeneralFunctions.convertMPHtoKMPH( $valueToChange.data("windspeed") ) );
-                } else {
-                    $valueToChange.html( $valueToChange.data("windspeed") );
-                }                
-            });
-
+            self.convertUnits( $this.attr('data-currenttempunit'), true );
         });
         
         
