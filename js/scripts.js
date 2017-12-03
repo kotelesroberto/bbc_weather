@@ -20,6 +20,7 @@ var GeneralFunctions = {
             event.returnValue = false;
         }
     }
+    
 };
 
 /*********************
@@ -177,24 +178,26 @@ var Services = {
                 }
             ];
 
-        var html = '<div class="city-list">';
+        var html = '<a href="#" class="city-selected dropdown-box"><p class="display-text"></p><span class="icon"></span></a>';  //' + locationArray[ 0 ].name + '
+
+        html += '<ul class="city-list">';
 
         for( var key in locationArray ) {
             html += '<li class="" data-bgimage="' + locationArray[ key ].bgimage + '" data-latitude="' + locationArray[ key ].coordinates[0] + '" data-longitude="' + locationArray[ key ].coordinates[1] + '">' + locationArray[ key ].name + '</li>';
         }
 
-        html += '</div>';
+        html += '</ul>';
 
-        $selectorContainer.html(html);
+        $selectorContainer.html(html).find("li:FIRST-CHILD").addClass("selected");
 
         //init click events
         self.onClick( locationArray );
 
         //first city will be loaded
-        self.loadList( locationArray[0].coordinates[0], locationArray[0].coordinates[1] );
+        self.loadList( locationArray[0].coordinates[0], locationArray[0].coordinates[1], locationArray[0].bgimage );
         
     },
-    loadList: function ( latitude, longitude ) {
+    loadList: function ( latitude, longitude, bgimage ) {
         'use strict';
         var self = this;
 
@@ -204,9 +207,20 @@ var Services = {
         
         
         var $contentPane = $("main");
-        var $listCurrent = $contentPane.find( '#forecast-panel-current span' );
-        var $listDaily = $contentPane.find( '#forecast-panel-daily span' );
+        var $listCurrent = $contentPane.find( '#forecast-panel-current span.loadArea' );
+        var $listDaily = $contentPane.find( '#forecast-panel-daily span.loadArea' );
+
+        // Creating a virtual image object for loading the file into. When it's done it will be used as background image.
+        // This solution helps avoid the blinking images at loading.
+        var img = new Image();
+        var imageUrl = "assets/images/cities/" + bgimage;
+        img.src = imageUrl;
+        img.onload = function(){
+            // Image  has been loaded
+            $(".location-bg").css("background-image", "url(" + imageUrl +")" ).removeClass("empty");
+        };
                 
+        // Get belonging forecast data of the selected city
         $.ajax( jsonPath, {
             dataType: 'json'
         }).done(function ( data ) {
@@ -220,7 +234,7 @@ var Services = {
                     html += '<h2 class="location">' + data.timezone + '</h2>';
 
                         if (data.currently.temperature) {
-                            html += '<div class="current-temperature">' + data.currently.temperature + '&deg;</div>';
+                            html += '<div class="current-temperature temperature-value" data-fahrenheit="' + data.currently.temperature + '"><span class="temp-value">' + data.currently.temperature + '</span>&deg;<span class="temp-unit">F</span></div>';
                         }
 
                         if (data.currently.icon) {
@@ -237,7 +251,13 @@ var Services = {
 
                     html += '</div>';
 
+                    //load name of the city into city selector
+                    $(".city-selected").find(".display-text").html( data.timezone );
+
+                    //load results into DOM wrapper
                     $listCurrent.html(html);
+                    
+                    
 
                     
                 //forecast in terms of days
@@ -257,7 +277,7 @@ var Services = {
 
                     html += '<ul class="forecast-daily">';
                     $.each(data.daily.data, function (key, obj) {
-                        console.log(obj);
+                        //console.log(obj);
                         
                         // Create a new JavaScript Date object based on the timestamp
                         // multiplied by 1000 so that the argument is in milliseconds, not seconds.
@@ -266,8 +286,8 @@ var Services = {
                         html += '<li>';
                             html += '<div class="daily-date">' + dayToDisplay +  '</div>';
                             html += '<div class="daily-icon"><i class="' + iconArray[obj.icon] + '"></i></div>';
-                            html += '<div class="daily-maxTemperature">' + obj.temperatureHigh +  '&deg;</div>';
-                            html += '<div class="daily-minTemperature">' + obj.temperatureLow +  '&deg;</div>';
+                            html += '<div class="daily-maxTemperature temperature-value" data-fahrenheit="' + obj.temperatureHigh + '"><span class="temp-value">' + obj.temperatureHigh + '</span>&deg;<span class="temp-unit">F</span></div>';
+                            html += '<div class="daily-minTemperature temperature-value" data-fahrenheit="' + obj.temperatureLow + '"><span class="temp-value">' + obj.temperatureLow + '</span>&deg;<span class="temp-unit">F</span></div>';
                         html += '</li>';
 
                     });
@@ -285,12 +305,28 @@ var Services = {
         'use strict';
         var self = this;
         
+        $('.dropdown-box').on('click', function() {
+            var $this = $(this);
+            
+            $this.parent().toggleClass("dropdown-is-active");      
+        });
+
         $('.city-list').find('li').on('click', function() {
             var $this = $(this);
             
-            self.loadList( $this.data('latitude'), $this.data('longitude') );
-            $(".location-bg").css("background-image", "url(assets/images/cities/" + $this.data('bgimage') +")" )
+            // Close the city list
+            $(".dropdown-is-active").removeClass("dropdown-is-active");
+
+            // Mark the selected item
+            $this.siblings().removeClass("selected");
+            $this.addClass("selected");
+
+            // Load new forecast data with the proper coordinates
+            self.loadList( $this.data('latitude'), $this.data('longitude'), $this.data('bgimage') );            
         });
+
+        
+        
         
     }
 

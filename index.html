@@ -52,15 +52,17 @@
 
 		<section>
 			
-			<!-- List if cities comes here-->
-			<ul id="forecast-selector" class="forecast-selector"></ul>
-			
 			<!-- Current forecast -->
 			<div id="forecast-panel-current" class="forecast-panel">
-				<div class="location-bg">
-					<img class="" src="assets/images/weather-en.png" alt="Weather logo" />
+				<div class="location-bg empty">
+					<img class="text-weather" src="assets/images/weather-en.png" alt="Weather logo" />
+					
 				</div>
-				<span>
+
+				<!-- List if cities comes here-->
+				<div id="forecast-selector" class="forecast-selector"></div>
+
+				<span class="loadArea">
 					<div class="spinner">
 					  <div class="bounce1"></div>
 					  <div class="bounce2"></div>
@@ -71,7 +73,7 @@
 
 			<!-- Daily forecast of the following days -->
 			<div id="forecast-panel-daily" class="forecast-panel daily-summary">
-				<span>
+				<span class="loadArea">
 					<div class="spinner">
 					  <div class="bounce1"></div>
 					  <div class="bounce2"></div>

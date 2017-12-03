@@ -41,8 +41,8 @@ img { display:block; max-width:100%; margin: 0; }
 ol, ul { font-size:$font-size; margin:0 0 20px 0; padding-left:20px; }
 li {}
 
-.hidden { display: none; }
-.visible { display: block; }
+.hidden { display: none !important; }
+.visible { display: block !important; }
 
 
 /* --------------------------------------------------
@@ -154,27 +154,93 @@ main {  /*display: flex; flex-direction: row;*/
 		@include transition(all .5s ease);
 		
 		
-		ul.forecast-selector { list-style: none; margin: 0; padding: 20px;
-			li {
-				display: inline-block;
-				padding: 10px;
-				margin: 5px;
-				border: 1px solid $white;
-				border-radius: 10px;
-				background-color: $white;
-				cursor: pointer;
+		.forecast-selector { margin: 10px; width: 200px; position: absolute; top: 0; right: 0; border-radius: 10px; background: rgba(255, 255, 255, 0.9); overflow: hidden; @include transition(background .5s ease);
+			
+			&.dropdown-is-active { background: $white;
+				.dropdown-box {
+					.icon {
+						&:BEFORE {
+							transform: translateX(5px) rotate(-45deg);
+							-webkit-transform: translateX(5px) rotate(-45deg);
+							-moz-transform: translateX(5px) rotate(-45deg);
+							-o-transform: translateX(5px) rotate(-45deg);
+						}
+
+						&:AFTER {
+							transform: rotate(45deg);
+							-webkit-transform: rotate(45deg);
+							-moz-transform: rotate(45deg);
+							-o-transform: rotate(45deg);
+						}
+					}
+				}
+
+				ul { max-height: 1000px; }
+				
 			}
+
+			.dropdown-box { display: block; position: relative; width: 100%; padding: 16px 20px; z-index: 10; border: 1px solid $grey-medium; text-decoration: none; 
+				.display-text {
+					margin: 0;
+				}
+				.icon {
+					position: absolute; top: 0; right: 0; width: 30px; height: 100%;
+
+					&:BEFORE,
+					&:AFTER {
+						-webkit-backface-visibility: hidden;
+					    backface-visibility: hidden;
+					    background: #494949;
+					    content: "";
+					    height: 2px;
+					    margin-top: -1px;
+					    position: absolute;
+					    top: 50%;
+					    -webkit-transition: width .3s ease,-webkit-transform .3s ease;
+					    -webkit-transition-delay: 0s,0s;
+					    transition: width .3s ease 0s,transform .3s ease 0s;
+					    width: 9px;
+					    display: block;
+					}
+
+					&:BEFORE {
+						right: 13px;
+					    transform: rotate(45deg);
+					    -webkit-transform: rotate(45deg);
+					    -moz-transform: rotate(45deg);
+					    -o-transform: rotate(45deg);
+					}
+					&:AFTER {
+						right: 8px;
+						transform: rotate(-45deg);
+						-webkit-transform: rotate(-45deg);
+						-moz-transform: rotate(-45deg);
+						-o-transform: rotate(-45deg);
+					}
+
+				}
+			}
+
+			ul {
+				list-style: none; margin: 0; padding: 0; display: block; width:100%; overflow: hidden; max-height: 0; @include transition(all .5s ease);
+				
+				li { display: block; padding: 10px; margin: 0; cursor: pointer;	
+					&:HOVER,
+					&.selected { background-color: $grey-light; color: $white; }
+				}
+			}
+			
 		}
 
 		/**************1*************************************************
 		*	Services contain the important datas to show 
 		***************************************************************/		
 
-		.forecast-panel { position: relative; z-index: 5; padding: 20px 0; margin-bottom: 20px;
+		.forecast-panel { position: relative; z-index: 5; padding: 60px 0 20px 0; margin-bottom: 20px;
 			&:AFTER { content:''; clear: both; display: block;}
 
 			.location-bg {
-				background-image: url( $bg-images-path + 'london.jpg' );
+				//background-image: url( $bg-images-path + 'london.jpg' );
 				position: absolute;
 				left: 0;
 				top: 0;
@@ -182,10 +248,21 @@ main {  /*display: flex; flex-direction: row;*/
 				bottom: 0;
 				background-size: cover;
 				z-index: -1;
+				opacity: 1;
 
 				@include transition(all .5s ease);
-			}
 
+				&.empty {
+					opacity: 0;
+				}
+			}
+			
+			.text-weather {
+				margin: 10px;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
 		}
 		
 		.forecast-current { background-color: $white; background: rgba(255, 255, 255, 0.9); text-align: center; width: auto; max-width: 400px; margin: 0 auto; padding: 20px; border-radius: 10px;
@@ -228,14 +305,14 @@ main {  /*display: flex; flex-direction: row;*/
 			
 		}
 		
-		.daily-summary {
+		.daily-summary { 
 			padding: 20px; background-color: $white; background: rgba(255, 255, 255, 0.9); border-radius: 10px; display: inline-block;
 			p {
 				font-weight: bold; margin: 0;
 			}
 		}
 
-		.forecast-daily {  list-style: none; display: inline-block; padding: 0; margin: 0;
+		.forecast-daily {  list-style: none; display: inline-block; padding: 0; margin: 0; 
 			li {
 				display: inline-block; padding: 20px; text-align: center;
 			}
