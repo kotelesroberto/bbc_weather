@@ -19,6 +19,26 @@ var GeneralFunctions = {
         } else {
             event.returnValue = false;
         }
+    },
+    convertCtoF: function ( celsius ) { //convert from Celsius to Fahrenheit
+        'use strict';
+        var calculated = celsius * 9 / 5 + 32;
+        return parseFloat( calculated.toFixed(2) );
+    },
+    convertFtoC: function ( fahrenheit ) { //convert from Fahrenheit to Celsius
+        'use strict';
+        var calculated = (fahrenheit - 32) * 5 / 9;
+        return parseFloat( calculated.toFixed(2) );
+    },
+    convertKPMHtoMPH: function ( kmph ) { //convert from km/h to mph
+        'use strict';
+        var calculated = kmph / 1.609344;
+        return parseFloat( calculated.toFixed(2) );
+    },
+    convertMPHtoKMPH: function ( mph ) { //convert from mph to km/h
+        'use strict';
+        var calculated = mph * 1.609344;
+        return parseFloat( calculated.toFixed(2) );
     }
     
 };
@@ -229,12 +249,13 @@ var Services = {
                 
                 console.log(data);
                 
+                // Building the current forecast panel
                 var html = '<div class="forecast-current">';
                     
                     html += '<h2 class="location">' + data.timezone + '</h2>';
 
                         if (data.currently.temperature) {
-                            html += '<div class="current-temperature temperature-value" data-fahrenheit="' + data.currently.temperature + '"><span class="temp-value">' + data.currently.temperature + '</span>&deg;<span class="temp-unit">F</span></div>';
+                            html += '<div class="current-temperature temperature-value"><span class="temp-value" data-fahrenheit="' + data.currently.temperature + '">' + data.currently.temperature + '</span>&deg;<span class="temp-unit">F</span></div>';
                         }
 
                         if (data.currently.icon) {
@@ -246,7 +267,7 @@ var Services = {
                         }
 
                         if (data.currently.windSpeed) {
-                            html += '<div class="current-wind"><i class="pe-is-w-wind-cone"></i> ' + data.currently.windSpeed + ' mph <i class="direction" data-direction="' + data.currently.windBearing + '" style="transform:rotate(-' + data.currently.windBearing + 'deg)">&rarr;</i></div>';
+                            html += '<div class="current-wind speed-value"><i class="pe-is-w-wind-cone"></i> <span class="wind-value" data-windspeed="' + data.currently.windSpeed + '">' + data.currently.windSpeed + '</span> <span class="wind-unit">mph</span> <i class="direction" data-direction="' + data.currently.windBearing + '" style="transform:rotate(-' + data.currently.windBearing + 'deg)">&rarr;</i></div>';
                         }
 
                     html += '</div>';
@@ -260,7 +281,7 @@ var Services = {
                     
 
                     
-                //forecast in terms of days
+                // Building the daily forecast items
                 if (data.daily) {
 
                     html = '';
@@ -286,8 +307,8 @@ var Services = {
                         html += '<li>';
                             html += '<div class="daily-date">' + dayToDisplay +  '</div>';
                             html += '<div class="daily-icon"><i class="' + iconArray[obj.icon] + '"></i></div>';
-                            html += '<div class="daily-maxTemperature temperature-value" data-fahrenheit="' + obj.temperatureHigh + '"><span class="temp-value">' + obj.temperatureHigh + '</span>&deg;<span class="temp-unit">F</span></div>';
-                            html += '<div class="daily-minTemperature temperature-value" data-fahrenheit="' + obj.temperatureLow + '"><span class="temp-value">' + obj.temperatureLow + '</span>&deg;<span class="temp-unit">F</span></div>';
+                            html += '<div class="daily-maxTemperature temperature-value"><span class="temp-value" data-fahrenheit="' + obj.temperatureHigh + '">' + obj.temperatureHigh + '</span>&deg;<span class="temp-unit">F</span></div>';
+                            html += '<div class="daily-minTemperature temperature-value"><span class="temp-value" data-fahrenheit="' + obj.temperatureLow + '">' + obj.temperatureLow + '</span>&deg;<span class="temp-unit">F</span></div>';
                         html += '</li>';
 
                     });
@@ -325,7 +346,54 @@ var Services = {
             self.loadList( $this.data('latitude'), $this.data('longitude'), $this.data('bgimage') );            
         });
 
-        
+        $('.change-temp-unit').on('click', function() {
+            var $this = $(this);
+            var $tempUnitToShow = $(".temp-unit");
+            var $tempUnitToChangeFrom = $this.find(".temp-unit");
+            var $windspeedUnitToShow = $(".wind-unit");
+            var $windspeedUnitToChangeFrom = $this.find(".wind-unit");
+            
+            var convertFromFahrenheitToCelsius; 
+
+            if( $tempUnitToChangeFrom.html() == "C" ) {
+                $tempUnitToShow.html("C");
+                $tempUnitToChangeFrom.html("F");
+                $windspeedUnitToShow.html("km&sol;h");
+                $windspeedUnitToChangeFrom.html("mph");
+
+                convertFromFahrenheitToCelsius = true;
+            } else {
+                $tempUnitToShow.html("F");
+                $tempUnitToChangeFrom.html("C");
+                $windspeedUnitToShow.html("mph");
+                $windspeedUnitToChangeFrom.html("km&sol;h");
+
+                convertFromFahrenheitToCelsius = false; 
+            }
+
+            $(".temperature-value").each( function () {
+                $this = $(this);
+                var $valueToChange = $this.find(".temp-value");
+                
+                if( convertFromFahrenheitToCelsius ) {
+                    $valueToChange.html( GeneralFunctions.convertFtoC( $valueToChange.data("fahrenheit") ) );
+                } else {
+                    $valueToChange.html( $this.data("fahrenheit") );
+                }                
+            });    
+
+            $(".speed-value").each( function () {
+                $this = $(this);
+                var $valueToChange = $this.find(".wind-value");
+                
+                if( convertFromFahrenheitToCelsius ) {
+                    $valueToChange.html( GeneralFunctions.convertMPHtoKMPH( $valueToChange.data("windspeed") ) );
+                } else {
+                    $valueToChange.html( $valueToChange.data("windspeed") );
+                }                
+            });
+
+        });
         
         
     }
