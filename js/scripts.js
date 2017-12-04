@@ -10,7 +10,7 @@
 *********************/
 
 var GeneralFunctions = {
-    prevent_default: function () {
+    prevent_default: function (event) {
         'use strict';
         if (window.event) {
             window.event.returnValue = false;
@@ -105,8 +105,8 @@ var Navigation = {
             window.location.href = "index.html";
         });
 
-        $("#mobilemenu-trigger").on("click", function() {
-            GeneralFunctions.prevent_default();
+        $("#mobilemenu-trigger").on("click", function(event) {
+            GeneralFunctions.prevent_default(event);
             $(this).parents("header").toggleClass("mobilemenu-open");
         });
         
@@ -405,13 +405,19 @@ var Services = {
         'use strict';
         var self = this;
         
-        $('.dropdown-box').on('click', function() {
+        $('.dropdown-box').on('click', function(event) {
+
+            GeneralFunctions.prevent_default(event);
+            
             var $this = $(this);
             
             $this.parent().toggleClass("dropdown-is-active");      
         });
 
-        $('.city-list').find('li').on('click', function() {
+        $('.city-list').find('li').on('click', function(event) {
+
+            GeneralFunctions.prevent_default(event);
+
             var $this = $(this);
             
             // Close the city list
