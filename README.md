@@ -1,5 +1,7 @@
 # bbc_weather
-Weather application for BBC
+Weather application for BBC.
+
+Working version is available ([help](http://domainforssl.hu/interviewtask/bbc-weather/)).
 
 
 ## Instructions
