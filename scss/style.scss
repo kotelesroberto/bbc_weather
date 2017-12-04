@@ -58,10 +58,13 @@ li {}
 	}
 }
 
-/*********************
+/******************************************
 *	Main sections 
-*********************/
+******************************************/
 
+/*********************
+*	Header
+*********************/
 .scrolling-up header {}
 .scrolling-down header { @include transform(translateY(-100%)); }
 
@@ -82,7 +85,9 @@ header { width: 100%; position: fixed; z-index: 10; background-color: $white; @i
 				}
 			}
 	
-
+	/*********************
+	*	Navigation
+	*********************/
 	nav { 
 		position: absolute; right: 0; top: 50%; @include transform(translateY(-50%));
 		
@@ -122,40 +127,48 @@ header { width: 100%; position: fixed; z-index: 10; background-color: $white; @i
 }
 
 
+	/*********************
+	*	Mobile menu trigger
+	*********************/
 
-/*Mobile menu button*/
-.mobilemenu-trigger { background:$blue; border:none; display:none; height:46px; width:46px; overflow:hidden; outline:none; position:absolute; right:0; top:0; text-indent:-9999px; z-index:1001; @include transition(all 0.3s); 
+	.mobilemenu-trigger { background:$blue; border:none; display:none; height:46px; width:46px; overflow:hidden; outline:none; position:absolute; right:0; top:0; text-indent:-9999px; z-index:1001; @include transition(all 0.3s); 
 
-		@media screen and (max-width: $break-s) {
-			display: block;
+			@media screen and (max-width: $break-s) {
+				display: block;
+			}
+
+		span { background:$white; display:block; height:1px; position:absolute; top:22px; left:9px; right:9px; @include transition(all 0.3s);
+			 
+			&::before, 
+			&::after { background:$white; display:block; height:1px; width:100%; content:''; position:absolute; left:0; @include transitionduration(0.3s, 0.3s); @include transitiondelay(0.3s, 0s); }
+			&::before { top:-6px; -webkit-transition-property:top, -webkit-transform; -moz-transition-property:top, -moz-transform; transition-property:top, transform; }
+			&::after { bottom:-6px; -webkit-transition-property:bottom, -webkit-transform; -moz-transition-property:bottom, -moz-transform; transition-property:bottom, transform; }
 		}
-
-	span { background:$white; display:block; height:1px; position:absolute; top:22px; left:9px; right:9px; @include transition(all 0.3s);
-		 
-		&::before, 
-		&::after { background:$white; display:block; height:1px; width:100%; content:''; position:absolute; left:0; @include transitionduration(0.3s, 0.3s); @include transitiondelay(0.3s, 0s); }
-		&::before { top:-6px; -webkit-transition-property:top, -webkit-transform; -moz-transition-property:top, -moz-transform; transition-property:top, transform; }
-		&::after { bottom:-6px; -webkit-transition-property:bottom, -webkit-transform; -moz-transition-property:bottom, -moz-transform; transition-property:bottom, transform; }
 	}
-}
 
-.mobilemenu-open .mobilemenu-trigger {
-	span { background:none; 
-		&::before { top:0; @include transform(rotate(45deg)); }
-		&::after { bottom:0; @include transform(rotate(-45deg)); }
-		&::before, 
-		&::after { @include transitiondelay(0s, 0.3s); }
-	}		
-}
+	.mobilemenu-open .mobilemenu-trigger {
+		span { background:none; 
+			&::before { top:0; @include transform(rotate(45deg)); }
+			&::after { bottom:0; @include transform(rotate(-45deg)); }
+			&::before, 
+			&::after { @include transitiondelay(0s, 0.3s); }
+		}		
+	}
 
 
+/*********************
+*	Main  
+*********************/
 main { 
 	width: 100%; background-color: $grey-medium; padding-top: 64px;
 	
 		@media screen and (max-width: $break-s) {
 			padding-top: 46px;
 		}
-
+	
+	/*********************
+	*	Main section
+	*********************/
 	section { 
 		padding: 20px 24px 0 24px;
 		
@@ -166,7 +179,9 @@ main {
 		text-align: center;
 		@include transition(all .5s ease);
 		
-		
+		/*********************
+		*	Dropdown for selecting cities
+		*********************/
 		.forecast-selector { width: 150px; margin-bottom: 10px; position: absolute; top: 0; right: 0; border-radius: 10px; background: rgba(255, 255, 255, 0.9); overflow: hidden; @include transition(background .5s ease);
 			
 			@media screen and (max-width: $break-s) {
@@ -253,7 +268,10 @@ main {
 				@media screen and (max-width: $break-s) {
 					padding-top: 40px;
 				}
-
+			
+			/*********************
+			*	Background image
+			*********************/
 			.location-bg {
 				position: absolute;
 				left: -24px;
@@ -271,6 +289,9 @@ main {
 				}
 			}
 			
+			/*********************
+			*	Image with text of "Weather" 
+			*********************/
 			.text-weather {
 				margin: 20px 24px;
 				position: absolute;
@@ -283,6 +304,10 @@ main {
 			}
 		}
 		
+
+		/*********************
+		*	Current weather
+		*********************/
 		.forecast-current { background-color: $white; background: rgba(255, 255, 255, 0.9); text-align: center; width: auto; max-width: $current-panel-max-width; margin: 0 auto; padding: 20px; border-radius: 10px;
 			
 			@media screen and (max-width: $break-l) {
@@ -328,6 +353,9 @@ main {
 			
 		}
 		
+		/*********************
+		*	Daily forecast
+		*********************/
 		.daily-summary { 
 			padding: 20px; background-color: $white; background: rgba(255, 255, 255, 0.9); border-radius: 10px; display: inline-block;
 			p {

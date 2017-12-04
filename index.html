@@ -6,54 +6,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 
 	<title>BBC Weather forecast- test project</title>
-
+	
+	<!-- Facebook Open Graph and Twitter infos -->
 	<meta name="og:title" content="Weather forecast application" />
     <meta property="og:url" content="http://www.bbc.co.uk/weather/" />
     <meta property="og:description" content="Weather forecast application" />
     <meta property="og:site_name" content="Weather forecast application" />
     <meta property="og:locale" content="en_EN" />
-    <meta property="og:image" content="assets/images/bbc_weather.jpg" />
+    <meta property="og:image" content="./assets/images/bbc_weather.jpg" />
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="Weather forecast application">
     <meta name="twitter:domain" content="www.bbc.co.uk">
     <meta name="twitter:title" content="Weather forecast application">
     <meta name="twitter:description" content="Weather forecast application">
-    <meta property="twitter:image:src" content="assets/images/bbc_weather.jpg" />
+    <meta property="twitter:image:src" content="./assets/images/bbc_weather.jpg" />
 
-	<link rel="apple-touch-icon" sizes="57x57" href="assets/images/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="assets/images/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="assets/images/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="assets/images/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="assets/images/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="assets/images/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="assets/images/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="assets/images/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="assets/images/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="assets/images/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16x16.png">
-    <link rel="manifest" href="assets/images/favicon/manifest.json">
+	<!-- Favicons for each devices, also as an icon for shortcuts -->
+	<link rel="apple-touch-icon" sizes="57x57" href="./assets/images/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="./assets/images/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./assets/images/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./assets/images/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./assets/images/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./assets/images/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="./assets/images/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./assets/images/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/images/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="./assets/images/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./assets/images/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="./assets/images/favicon/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="assets/images/favicon/ms-icon-144x144.png">
+    <meta name="msapplication-TileImage" content="./assets/images/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
 	
+	<!-- Loading Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
-	<link rel="stylesheet" href="/styles/pe-icon-set-weather.min.css">
+	<!-- Weather icon set -->
+	<link rel="stylesheet" href="./styles/pe-icon-set-weather.min.css">
 	<!-- Adds useful class to manipulate icon font display -->
-	<link rel="stylesheet" href="/styles/helper.min.css">
-
-
-	<link href="/styles/style.css" rel="stylesheet" />
-
-
+	<link rel="stylesheet" href="./styles/helper.min.css">
+	
+	<!-- Proper style definitions-->
+	<link href="./styles/style.css" rel="stylesheet" />
 
 </head>
+
 <body>
 
 	<header>
-        <img class="header-logo" src="assets/images/blq-blocks_grey_alpha.png" alt="BBC" />
+        <img class="header-logo" src="./assets/images/blq-blocks_grey_alpha.png" alt="BBC" />
         <nav id="primary-menu">
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -71,7 +74,7 @@
 			<!-- Current forecast -->
 			<div id="forecast-panel-current" class="forecast-panel">
 				<div class="location-bg empty">
-					<img class="text-weather" src="assets/images/weather-en.png" alt="Weather logo" />
+					<img class="text-weather" src="./assets/images/weather-en.png" alt="Weather logo" />
 					
 				</div>
 
@@ -102,13 +105,14 @@
 	</main>
 
 	<footer>
-		<img class="footer-logo" src="assets/images/blq-blocks_grey_alpha.png" alt="BBC" />
+		<img class="footer-logo" src="./assets/images/blq-blocks_grey_alpha.png" alt="BBC" />
         <p class="copyright">Built by &copy;Robert Koteles, 2017</p>
         <p class="copyright"><a href="https://darksky.net/poweredby/" target="_blank">Powered by Dark Sky</a></p>
     </footer>
 
-<script src="/js/lib/jquery.min.js"></script>
-<script src="/js/scripts.min.js"></script>
+<!-- Loading scripts at the end of the file, saving time for drawing in the browser -->
+<script src="./js/lib/jquery.min.js"></script>
+<script src="./js/scripts.min.js"></script>
 
 </body>
 </html>

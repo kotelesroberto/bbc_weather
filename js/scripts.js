@@ -407,7 +407,7 @@ var Services = {
             
             $this.parent().toggleClass("dropdown-is-active");      
         });
-
+        
         $('.city-list').find('li').on('click', function() {
             var $this = $(this);
             
@@ -422,6 +422,7 @@ var Services = {
             self.loadList( $this.data('latitude'), $this.data('longitude'), $this.data('bgimage') );            
         });
 
+        /* Changing the displayed units (Celsius or Fahrenheit, Mph or Km/h) */
         $('.change-temp-unit').on('click', function() {
             var $this = $(this);
             var $tempUnitToChangeFrom = $this.find(".temp-unit");
@@ -436,6 +437,7 @@ var Services = {
 
 $(function () {
 
+    /* Init functions */
     Header.initialize();
     Navigation.initialize();
     Footer.initialize();
