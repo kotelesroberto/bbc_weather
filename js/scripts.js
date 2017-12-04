@@ -245,7 +245,8 @@ var Services = {
         img.src = imageUrl;
         img.onload = function(){
             // Image  has been loaded
-            $(".location-bg").css("background-image", "url(" + imageUrl +")" ).removeClass("empty");
+            //$(".location-bg").css("background-image", "url(" + imageUrl +")" ).removeClass("empty"); //if image is loaded before forecast data height of panel will be small than jumps. This line should be ignored.
+            $(".location-bg").css("background-image", "url(" + imageUrl +")" );
         };
                 
         // Get belonging forecast data of the selected city using JSONP solution, avoiding CORS issue.
@@ -281,7 +282,9 @@ var Services = {
 
                     //load results into DOM wrapper
                     $listCurrent.html(html);
-                    
+
+                    // This line has meaning at first run. Background image will be visible after forecast panel will be loaded and fits the entire space.
+                    $(".location-bg").removeClass("empty");
                     
                 // Building the daily forecast items
                 if (data.daily) {
