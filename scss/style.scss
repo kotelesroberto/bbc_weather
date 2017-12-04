@@ -412,3 +412,19 @@ footer {
 		}
 	}
 }
+
+
+/***************************************************************
+*	Easter Egg Tooltip on my name in the Footer 
+***************************************************************/
+[data-tooltip] { position: relative; z-index: 2; cursor: pointer; 
+	/* Hide the tooltip content by default */
+	&:before,
+	&:after { visibility: hidden; opacity: 0; pointer-events: none; }
+	/* Position tooltip above the element */
+	&:before { position: absolute; bottom: 150%; left: 50%; margin-bottom: 5px; margin-left: -80px; padding: 7px; width: 160px; border-radius: 3px; background-color: $black; color: $white; content: attr(data-tooltip); text-align: center; line-height: 1.2; }
+	/* Triangle hack to make tooltip look like a speech bubble */
+	&:after { position: absolute; bottom: 150%; left: 50%; margin-left: -5px; width: 0; border-top: 5px solid $black; border-right: 5px solid transparent; border-left: 5px solid transparent; content: " "; font-size: 0; line-height: 0; }
+	&:hover:before,
+	&:hover:after { visibility: visible; opacity: 1; }
+}
