@@ -158,6 +158,7 @@ var iconArray =
     'tornado' : 'pe-is-w-tornado-1'
 };
 
+
 /* Read JSON data source and put weather info into DOM */
 var Services = {
 
@@ -247,12 +248,10 @@ var Services = {
             $(".location-bg").css("background-image", "url(" + imageUrl +")" ).removeClass("empty");
         };
                 
-        // Get belonging forecast data of the selected city
-        $.ajax( jsonPath, {
-            dataType: 'json'
-        }).done(function ( data ) {
+        // Get belonging forecast data of the selected city using JSONP solution, avoiding CORS issue.
+        $.getJSON( jsonPath+"?callback=?", function( data ){
 
-            if (data) {
+          if (data) {
                 
                 // Building the current forecast panel
                 var html = '<div class="forecast-current">';
@@ -322,8 +321,9 @@ var Services = {
                 //convert to the selected unit
                 self.convertUnits( $('.change-temp-unit').attr('data-currenttempunit'), false );
             }
-
         });
+
+        
     },
     convertUnits: function ( currentTempUnit, buttonAction ) {
             var $changeButton = $('.change-temp-unit');
@@ -407,7 +407,7 @@ var Services = {
             
             $this.parent().toggleClass("dropdown-is-active");      
         });
-        
+
         $('.city-list').find('li').on('click', function() {
             var $this = $(this);
             
