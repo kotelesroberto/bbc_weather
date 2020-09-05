@@ -1,10 +1,41 @@
-# bbc_weather
-Weather application for BBC.
-
-Working version is available ([help](http://domainforssl.hu/interviewtask/bbc-weather/)).
 
 
-## Instructions
+
+# Interview Task: BBC Weather APP
+![enter image description here](https://nav.files.bbci.co.uk/orbit/1b2e292884201dd13064a9204e177864/img/blq-orbit-blocks_grey.svg)
+
+Coded by Robert Koteles, Senior Frontend Developer, 2017. 
+
+This was a simple interview task for BBC. Task was about building a simple app that displays live weather information into the BBC site.
+
+## Demo
+[Open demo](http://domainforssl.hu/interviewtask/bbc-weather/)
+
+![enter image description here](http://domainforssl.hu/interviewtask/bbc-weather/sample.png)
+
+
+## Technologies
+jQuery, Vanilla JavaScript (ES5), AJAX (getJSON), CSS3, HTML5 
+
+## GIT Hub
+
+Link:
+[https://github.com/kotelesroberto/bbc_weather](https://github.com/kotelesroberto/bbc_weather)
+
+## Clone
+
+Clone this repo to your local machine using 
+```
+https://github.com/kotelesroberto/bbc_weather.git
+```
+
+
+## Licence
+*   Copyright 2018 ©  Robert Koteles.
+
+
+
+## Instructions by BBC Team
 **Web Developer Test - BBC.com**
 
 Web Developer recruitment test for roles at BBC.com http://www.bbc.com
