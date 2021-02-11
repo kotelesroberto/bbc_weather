@@ -1,0 +1,61 @@
+@mixin box-shadow($params...) {
+  -webkit-box-shadow: $params;
+  -moz-box-shadow: $params;
+  -ms-box-shadow: $params;
+  box-shadow: $params;
+}
+
+@mixin transform($params...) {
+  -webkit-transform: $params;
+  -moz-transform: $params;
+  -ms-transform: $params;
+  transform: $params;
+}
+
+@mixin transition($params...) {
+  -webkit-transition: $params;
+  -moz-transition: $params;
+  -ms-transition: $params;
+  transition: $params;
+}
+
+@mixin backfacevisibility($params...) {
+  -webkit-backface-visibility: $params;
+  backface-visibility: $params;
+}
+
+@mixin transitiondelay($params...) {
+  -webkit-transition-delay: $params;
+  -moz-transition-delay: $params;
+  -ms-transition-delay: $params;
+  transition-delay: $params;
+}
+
+@mixin transitionduration($params...) {
+  -webkit-transition-duration: $params;
+  -moz-transition-duration: $params;
+  -ms-transition-duration: $params;
+  transition-duration: $params;
+}
+
+@mixin transitionproperty($params...) {
+  -webkit-transition-property: $params;
+  -moz-transition-property: $params;
+  -ms-transition-property: $params;
+  transition-property: $params;
+}
+
+@mixin animation($params...) {
+  -webkit-animation: $params;
+  -moz-animation: $params;
+  -ms-animation: $params;
+  animation: $params;
+}
+
+@mixin animationdelay($params...) {
+  -webkit-animation-delay: $params;
+  -moz-animation-delay: $params;
+  -ms-animation-delay: $params;
+  animation-delay: $params;
+}
+

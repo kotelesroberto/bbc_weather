@@ -1,0 +1,430 @@
+/*********************
+*   Robert Koteles
+*   Web developer
+*   2017
+*********************/
+
+@import "variables";
+@import "mixins";
+@import "normalize";
+@import "components/loader";
+@import "print";
+
+/* --------------------------------------------------
+ * Base
+ * -------------------------------------------------- */
+
+ * { box-sizing:border-box; -ms-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; }
+
+html {
+	font-family: $font-family;
+}
+
+body {
+	font-size: $font-size; line-height: 1.3;
+	font-family: $font-family;
+	color: $primary-color;
+}
+
+h1, h2, h3, h4, h5, h6 { font-weight: normal; line-height: 1.2; margin-top: 0; margin-bottom: 10px; color: $blue-light; }
+h2 { font-size: $font-size-h2; font-weight: bold; }
+h3 { font-size: $font-size-h3; font-weight: bold; }
+h4 { font-size: $font-size-h4; font-weight: bold; }
+
+p { font-size:$font-size; margin:0 0 10px 0; 
+	&:LAST-CHILD { margin-bottom: 0; }
+}
+
+a { color:$link-color; text-decoration:none; }
+a:hover { color: $link-color-hover; text-decoration:underline; }
+
+img { display:block; max-width:100%; margin: 0; }
+
+ol, ul { font-size:$font-size; margin:0 0 20px 0; padding-left:20px; }
+li {}
+
+.hidden { display: none !important; }
+.visible { display: block !important; }
+.strong { font-weight:bold; }
+
+/* --------------------------------------------------
+ * Site definitions
+ * -------------------------------------------------- */
+
+.button { padding:10px; background-color: $white; border-radius: 10px; display: inline-block; margin-bottom: 20px; cursor: pointer; @include transition(all .5s ease); 
+	&:HOVER {
+		background-color: $grey-light; 
+		color: $white;
+	}
+}
+
+/******************************************
+*	Main sections 
+******************************************/
+
+/*********************
+*	Header
+*********************/
+.scrolling-up header {}
+.scrolling-down header { @include transform(translateY(-100%)); }
+
+header { width: 100%; position: fixed; z-index: 10; background-color: $white; @include transition(all .5s ease); @include box-shadow(0px 2px 4px 0px rgba(0, 0, 0, 0.4), 0px 0px 6px 2px rgba(255,255,255,0.5));
+	
+	img.header-logo { width: 84px; height: 24px; position: relative; margin: 20px 24px; top: 0; cursor: pointer; @include transition(all .5s ease); 
+		
+			@media screen and (max-width: $break-s) {
+				margin: 11px 24px;
+			}
+
+		&:HOVER { opacity: .5; }
+	}
+	
+			@media screen and (max-width: $break-s) {
+				&.mobilemenu-open {
+					nav { @include transform(translateY(0)); opacity: 1;  }
+				}
+			}
+	
+	/*********************
+	*	Navigation
+	*********************/
+	nav { 
+		position: absolute; right: 0; top: 50%; @include transform(translateY(-50%));
+		
+			@media screen and (max-width: $break-s) {
+				position: fixed; left: 0; top: 0; right: 0; bottom: 0; background-color: $white; @include transition(all .5s ease); @include transform(translateY(-100%)); opacity: 0;
+			}
+
+		ul { list-style: none; font-size: 0; text-align: right; padding: 10px; margin: 0; margin-right: 24px;
+			
+				@media screen and (max-width: $break-s) {
+					position: absolute;
+					left: 0;
+					top: 50%;
+					left: 50%;
+					@include transform(translate3d(-50%,-50%,0));
+				}
+
+			li { display: inline-block; font-size: $font-size-main-nav; cursor: pointer; 
+					
+					@media screen and (max-width: $break-l) {
+						font-size: $font-size-main-nav-l;
+					}
+
+					@media screen and (max-width: $break-s) {
+						display: block; margin: 20px 0 !important; text-align: center;
+					}
+
+				&+li { margin-left: 30px; }
+				a { position: relative; 
+					&:HOVER { text-decoration: none; }
+					&:AFTER { content:''; display: block; width: 100%; height: 3px; background-color: $grey; position:absolute; left: 0; bottom: -6px; opacity: 0; @include transition(all .5s ease); @include transform(translateX(-10px)); }
+					&:HOVER:AFTER { @include transform(translateX(0)); opacity: 1; }
+				}
+			}
+		}
+	}
+}
+
+
+	/*********************
+	*	Mobile menu trigger
+	*********************/
+
+	.mobilemenu-trigger { background:$blue; border:none; display:none; height:46px; width:46px; overflow:hidden; outline:none; position:absolute; right:0; top:0; text-indent:-9999px; z-index:1001; @include transition(all 0.3s); 
+
+			@media screen and (max-width: $break-s) {
+				display: block;
+			}
+
+		span { background:$white; display:block; height:1px; position:absolute; top:22px; left:9px; right:9px; @include transition(all 0.3s);
+			 
+			&::before, 
+			&::after { background:$white; display:block; height:1px; width:100%; content:''; position:absolute; left:0; @include transitionduration(0.3s, 0.3s); @include transitiondelay(0.3s, 0s); }
+			&::before { top:-6px; -webkit-transition-property:top, -webkit-transform; -moz-transition-property:top, -moz-transform; transition-property:top, transform; }
+			&::after { bottom:-6px; -webkit-transition-property:bottom, -webkit-transform; -moz-transition-property:bottom, -moz-transform; transition-property:bottom, transform; }
+		}
+	}
+
+	.mobilemenu-open .mobilemenu-trigger {
+		span { background:none; 
+			&::before { top:0; @include transform(rotate(45deg)); }
+			&::after { bottom:0; @include transform(rotate(-45deg)); }
+			&::before, 
+			&::after { @include transitiondelay(0s, 0.3s); }
+		}		
+	}
+
+
+/*********************
+*	Main  
+*********************/
+main { 
+	width: 100%; background-color: $grey-medium; padding-top: 64px;
+	
+		@media screen and (max-width: $break-s) {
+			padding-top: 46px;
+		}
+	
+	/*********************
+	*	Main section
+	*********************/
+	section { 
+		padding: 20px 24px 0 24px;
+		
+		margin: 0 auto;
+		min-height: 100px;
+		background-color: $blue;
+		position: relative;
+		text-align: center;
+		@include transition(all .5s ease);
+		
+		/*********************
+		*	Dropdown for selecting cities
+		*********************/
+		.forecast-selector { width: 150px; margin-bottom: 10px; position: absolute; top: 0; right: 0; border-radius: 10px; background: rgba(255, 255, 255, 0.9); overflow: hidden; @include transition(background .5s ease);
+			
+			@media screen and (max-width: $break-s) {
+				position: relative;
+			}
+
+			&.dropdown-is-active { background: $white;
+				.dropdown-box {
+					.icon {
+						&:BEFORE {
+							@include transform( translateX(5px) rotate(-45deg) );
+						}
+
+						&:AFTER {
+							@include transform( rotate(45deg) );
+						}
+					}
+				}
+
+				ul { max-height: 1000px; }
+				
+			}
+
+			.dropdown-box { display: block; position: relative; width: 100%; padding: 20px; z-index: 10; border: 1px solid $grey-medium; text-decoration: none; 
+				
+				.display-text {
+					margin: 0;
+					font-size: $font-size-selected-city;
+					position: absolute;
+					top: 50%;
+					transform: translate3d(-50%,-50%,0);
+					left: 50%;
+				}
+
+				.icon {
+					position: absolute; top: 0; right: 0; width: 30px; height: 100%;
+
+					&:BEFORE,
+					&:AFTER {
+					    background: #494949;
+					    content: "";
+					    height: 2px;
+					    margin-top: -1px;
+					    position: absolute;
+					    top: 50%;
+					    @include backfacevisibility( hidden );
+					    -webkit-transition: width .3s ease,-webkit-transform .3s ease;
+					    -webkit-transition-delay: 0s,0s;
+					    @include transition( width .3s ease 0s,transform .3s ease 0s );
+					    width: 9px;
+					    display: block;
+					}
+
+					&:BEFORE {
+						right: 13px;
+						@include transform( rotate(45deg) );
+					}
+					&:AFTER {
+						right: 8px;
+						@include transform( rotate(-45deg) );
+					}
+
+				}
+			}
+
+			ul {
+				list-style: none; margin: 0; padding: 0; display: block; width:100%; overflow: hidden; max-height: 0; @include transition(all .5s ease);
+				
+				li { display: block; padding: 10px; margin: 0; cursor: pointer;	
+					&:HOVER,
+					&.selected { background-color: $grey-light; color: $white; }
+				}
+			}
+			
+		}
+
+		/**************1*************************************************
+		*	Services contain the important datas to show 
+		***************************************************************/		
+
+		.forecast-panel { position: relative; z-index: 5; padding: 60px 0 20px 0; margin-bottom: 20px;
+			&:AFTER { content:''; clear: both; display: block;}
+
+				@media screen and (max-width: $break-s) {
+					padding-top: 40px;
+				}
+			
+			/*********************
+			*	Background image
+			*********************/
+			.location-bg {
+				position: absolute;
+				left: -24px;
+				top: -20px;
+				right: -24px;
+				bottom: 0;
+				background-size: cover;
+				background-position: center;
+				z-index: -1;
+				opacity: 1;
+
+				@include transition(all .5s ease);
+
+				&.empty {
+					opacity: 0;
+				}
+			}
+			
+			/*********************
+			*	Image with text of "Weather" 
+			*********************/
+			.text-weather {
+				margin: 20px 24px;
+				position: absolute;
+				left: 0;
+				top: 0;
+
+				@media screen and (max-width: $break-s) {
+					width: 150px;
+				}
+			}
+		}
+		
+
+		/*********************
+		*	Current weather
+		*********************/
+		.forecast-current { background-color: $white; background: rgba(255, 255, 255, 0.9); text-align: center; width: auto; max-width: $current-panel-max-width; margin: 0 auto; padding: 20px; border-radius: 10px;
+			
+			@media screen and (max-width: $break-l) {
+			}
+			@media screen and (max-width: $break-s) {
+				max-width: 100%;
+			}
+			
+			
+			h2.location {
+				font-size: $font-size-h2;
+				font-weight: bold;
+				color: $black;
+			}
+			
+			.current-temperature {
+				font-size: $font-size-icon-main;
+				color: $black;
+
+				@media screen and (max-width: $break-s) {
+					font-size: $font-size-icon-main-s;
+				}
+			}
+
+			.current-summary {
+				color: $grey;
+			}
+
+			.current-icon {
+				font-size: $font-size-icon-main;
+			}
+
+			.current-wind {
+				color: $blue;
+				i {
+					display: inline-block;
+				}
+			}
+
+			p {
+				font-size: $font-size;				
+			}
+			
+		}
+		
+		/*********************
+		*	Daily forecast
+		*********************/
+		.daily-summary { 
+			padding: 20px; background-color: $white; background: rgba(255, 255, 255, 0.9); border-radius: 10px; display: inline-block;
+			p {
+				font-weight: bold; margin: 0;
+			}
+		}
+
+		.forecast-daily {  list-style: none; display: inline-block; padding: 0; margin: 0; 
+			li {
+				width: 100px; display: inline-block; padding: 20px; text-align: center;
+			}
+
+			.daily-date {
+				color: $grey;
+			}
+
+			.daily-icon {
+				font-size: $font-size-icon-daily;
+			}
+
+			.daily-maxTemperature {
+				font-size: $font-size-maxTemperature;
+				color: $grey;
+			}
+
+			.daily-minTemperature {
+				font-size: $font-size-minTemperature;
+				color: $blue-light;
+			}
+		}
+	}
+}
+
+/*********************
+*	Footer 
+*********************/
+footer {
+	width: 100%;
+	background-color: $black;
+	z-index: 10;
+	position: relative;
+	padding: 20px 24px;
+	color: $white;
+	
+	.footer-logo {  		
+		@media screen and (max-width: $break-s) {
+			margin-bottom: 20px;
+		}
+	}
+	p.copyright {  margin: 0; text-align: right;
+		@media screen and (max-width: $break-s) {
+			text-align: left;
+		}
+	}
+}
+
+
+/***************************************************************
+*	Easter Egg Tooltip on my name in the Footer 
+***************************************************************/
+[data-tooltip] { position: relative; z-index: 2; cursor: pointer; 
+	/* Hide the tooltip content by default */
+	&:before,
+	&:after { visibility: hidden; opacity: 0; pointer-events: none; }
+	/* Position tooltip above the element */
+	&:before { position: absolute; bottom: 150%; left: 50%; margin-bottom: 5px; margin-left: -80px; padding: 7px; width: 160px; border-radius: 3px; background-color: $black; color: $white; content: attr(data-tooltip); text-align: center; line-height: 1.2; }
+	/* Triangle hack to make tooltip look like a speech bubble */
+	&:after { position: absolute; bottom: 150%; left: 50%; margin-left: -5px; width: 0; border-top: 5px solid $black; border-right: 5px solid transparent; border-left: 5px solid transparent; content: " "; font-size: 0; line-height: 0; }
+	&:hover:before,
+	&:hover:after { visibility: visible; opacity: 1; }
+}
